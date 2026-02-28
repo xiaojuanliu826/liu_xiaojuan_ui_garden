@@ -1,46 +1,127 @@
-# Getting Started with Create React App
+# UI Garden Component Library
+Author: Liu Xiaojuan
+Assignment: Coding Assignment 12
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a UI Component Library built using React, TypeScript, Styled Components, and Storybook.
+The project is containerized using Docker and runs on:
 
-## Available Scripts
+http://localhost:8083
+or
+http://127.0.0.1:8083
 
-In the project directory, you can run:
+---
 
-### `npm start`
+# 1. Project Creation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Step 1: Create React App with TypeScript
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The project was created using Create React App with the TypeScript template:
 
-### `npm test`
+```bash
+npx create-react-app liu_xiaojuan_ui_garden --template typescript
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Step 2: Navigate into the Project
 
-### `npm run build`
+cd liu_xiaojuan_ui_garden
+To run the Project Locally (Development Mode)
+npm start
+Then open:
+http://localhost:3000
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Step 3: Install Required Dependencies(Install Styled Components)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+npm install styled-components
+npm install --save-dev @types/styled-components
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Step 4: Install Storybook
 
-### `npm run eject`
+npx storybook@latest init
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Storybook is used to develop and test components independently.
+To run Storybook:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+npm run storybook
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Step 5: Component Structure
+Each component follows this required folder structure:
+ComponentName/
+  ComponentName.tsx
+  ComponentName.types.tsx
+  ComponentName.stories.tsx
+  ComponentName.tests.tsx
+  index.ts
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Step 6: Docker Setup
+The project includes a Dockerfile that:
 
-## Learn More
+Builds the React production version
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Uses Nginx to serve the static files
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Runs the application on port 8083
+
+1. Create a Dockerfile under the root project directory
+2. Write and save following code into the Dockerfile
+# --- Stage 1: Build ---
+# Use the official Node.js 20 (Debian Bullseye) image as the build environment
+FROM node:20-bullseye AS build
+
+# Set the working directory inside the container
+# All subsequent commands (COPY, RUN, etc.) will be executed here
+WORKDIR /liu_xiaojuan_ui_garden
+
+# Copy only package.json and package-lock.json first
+# This allows Docker to cache dependencies installation, so npm install doesn't run on every code change
+COPY package.json package-lock.json ./
+
+# Install all project dependencies
+RUN npm install
+
+# Copy the rest of the application source code into the container
+COPY . .
+
+# Set environment variables to skip some Create React App ESLint checks during build
+# SKIP_PREFLIGHT_CHECK=true: skip CRA preflight checks
+# EXTEND_ESLINT=false: disable ESLint extensions to avoid plugin errors in Docker
+ENV SKIP_PREFLIGHT_CHECK=true
+ENV EXTEND_ESLINT=false
+
+# Run the production build
+# This creates the optimized static files in the 'build' folder
+RUN npm run build
+
+# --- Stage 2: Production ---
+# Use a lightweight Nginx image to serve the static files
+FROM nginx:alpine
+
+# Copy the built files from the build stage into Nginx's default web directory
+COPY --from=build /liu_xiaojuan_ui_garden/build /usr/share/nginx/html
+
+# Expose port 8083 on the container
+# The app will be accessible via this port on localhost
+EXPOSE 8083
+
+# Start Nginx in the foreground
+# Running in the foreground keeps the Docker container alive
+CMD ["nginx", "-g", "daemon off;"]
+
+3. Build Docker Image
+sudo docker build -t liu_xiaojuan_coding_assignment12 .
+
+4. Run Docker Container
+sudo docker run -p 8083:80 --name liu_xiaojuan_coding_assignment12 liu_xiaojuan_coding_assignment12
+
+5. Access the Application
+Open a browser and visit:
+http://localhost:8083 or http://127.0.0.1:8083
+
+To stop the container:
+sudo docker stop liu_xiaojuan_coding_assignment12
+
+To remove the container:
+sudo docker rm liu_xiaojuan_coding_assignment12
+
+
+
+
+
