@@ -7,8 +7,7 @@ const StyledSelect = styled.select<{ $bg?: string; $disabled?: boolean }>`
   width: 100%;
   background-color: ${({ $disabled, $bg }) =>
     $disabled ? 'grey' : $bg || 'white'};
-  cursor: ${({ $disabled }) =>
-    $disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
 
   @media (min-width: 768px) {
     width: auto;
@@ -21,7 +20,11 @@ const Dropdown: React.FC<DropdownProps> = ({
   disabled = false,
 }) => {
   return (
-    <StyledSelect $bg={backgroundColor} $disabled={disabled} disabled={disabled}>
+    <StyledSelect
+      $bg={backgroundColor}
+      $disabled={disabled}
+      disabled={disabled}
+    >
       {options.map((opt) => (
         <option key={opt}>{opt}</option>
       ))}

@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { TableProps } from './Table.types';
 
-const StyledTable = styled.table<{ backgroundColor?: string; disabled?: boolean }>`
+const StyledTable = styled.table<{
+  backgroundColor?: string;
+  disabled?: boolean;
+}>`
   width: 100%;
   border-collapse: collapse;
   border: 2px solid #000;
@@ -11,7 +14,8 @@ const StyledTable = styled.table<{ backgroundColor?: string; disabled?: boolean 
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'default')};
 
   /* 让 tr/td 内部也继承 disabled 样式 */
-  tr, td {
+  tr,
+  td {
     background-color: ${({ disabled }) => (disabled ? '#ccc' : 'transparent')};
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'default')};
   }

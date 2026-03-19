@@ -25,5 +25,7 @@ test('TableRow changes color when disabled', () => {
       </tbody>
     </table>
   );
-  expect(screen.getByText('Test').parentElement).toHaveStyle('background-color: #eee');
+  expect(screen.getByText('Test').parentElement).toHaveStyle(
+    'background-color: #eee'
+  );
 });

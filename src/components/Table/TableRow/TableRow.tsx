@@ -10,7 +10,8 @@ const StyledTr = styled.tr<{ disabled?: boolean }>`
     border: 1px solid #ddd;
     padding: 12px;
     background-color: ${({ disabled }) => (disabled ? '#eee' : '#fff')};
-    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'default')}; // ✅加上这里
+    cursor: ${({ disabled }) =>
+      disabled ? 'not-allowed' : 'default'}; // ✅加上这里
   }
 `;
 

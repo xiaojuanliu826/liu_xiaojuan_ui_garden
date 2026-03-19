@@ -19,10 +19,13 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN_STORYBOOK=true react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
@@ -44,17 +47,27 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^10.2.13",
+    "@storybook/addon-docs": "^10.2.13",
+    "@storybook/preset-create-react-app": "^10.2.13",
+    "@storybook/react-webpack5": "^10.2.13",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/styled-components": "^5.1.36",
+    "eslint": "^8.57.1",
+    "eslint-plugin-storybook": "^10.2.13",
+    "husky": "^9.1.7",
     "jest-styled-components": "^7.2.0",
-    "storybook": "^10.2.13",
-    "@storybook/react-webpack5": "^10.2.13",
-    "@storybook/preset-create-react-app": "^10.2.13",
-    "@storybook/addon-a11y": "^10.2.13",
-    "@storybook/addon-docs": "^10.2.13",
-    "webpack": "^5.105.3",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1",
     "prop-types": "^15.8.1",
-    "eslint-plugin-storybook": "^10.2.13"
+    "storybook": "^10.2.13",
+    "webpack": "^5.105.3"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "npm run format",
+      "npm run lint"
+    ]
   }
 }

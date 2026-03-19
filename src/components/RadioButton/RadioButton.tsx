@@ -8,8 +8,7 @@ const Wrapper = styled.label<{ $disabled?: boolean; $bg?: string }>`
   padding: 5px;
   background-color: ${({ $disabled, $bg }) =>
     $disabled ? 'grey' : $bg || 'transparent'};
-  cursor: ${({ $disabled }) =>
-    $disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
 
   @media (min-width: 768px) {
     padding: 8px;

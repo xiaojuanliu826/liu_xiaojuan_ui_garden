@@ -44,9 +44,7 @@ const HeroImage: React.FC<HeroImageProps> = ({
     <Wrapper disabled={disabled} data-testid="heroimage">
       <Image src={src} alt={alt} />
       {overlayText && (
-        <Overlay backgroundColor={backgroundColor}>
-          {overlayText}
-        </Overlay>
+        <Overlay backgroundColor={backgroundColor}>{overlayText}</Overlay>
       )}
     </Wrapper>
   );

@@ -7,8 +7,7 @@ const StyledCard = styled.div<{ $bg?: string; $disabled?: boolean }>`
   border-radius: 8px;
   background-color: ${({ $disabled, $bg }) =>
     $disabled ? 'grey' : $bg || 'white'};
-  cursor: ${({ $disabled }) =>
-    $disabled ? 'not-allowed' : 'default'};
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'default')};
   width: 100%;
 
   @media (min-width: 768px) {

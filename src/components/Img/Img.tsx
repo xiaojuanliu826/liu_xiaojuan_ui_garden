@@ -10,8 +10,22 @@ const StyledImg = styled.img<{ $disabled?: boolean }>`
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 `;
 
-const Img: React.FC<ImgProps> = ({ src, alt, width, height, disabled = false }) => {
-  return <StyledImg src={src} alt={alt} width={width} height={height} $disabled={disabled} />;
+const Img: React.FC<ImgProps> = ({
+  src,
+  alt,
+  width,
+  height,
+  disabled = false,
+}) => {
+  return (
+    <StyledImg
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      $disabled={disabled}
+    />
+  );
 };
 
 export default Img;
